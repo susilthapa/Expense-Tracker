@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% include 'form_style.html' %}
+
+    <div class="content-section d-flex justify-content-around text-center mt-5">
+        <div class="form-div p-4 col-6 border border-danger">
+            <form method="post">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="width-auto border-bottom mb-4 pt-3">Delete Item</legend>
+                    <h2>Are you sure yo want to delete item "{{ object.name }}"</h2>
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                    <a class="btn btn-outline-secondary" href="{{ object.get_absolute_url }}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock content %}

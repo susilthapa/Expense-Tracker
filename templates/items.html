@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block script %}
+
+        $(document).ready(function(){
+
+<!--            let date = document.getElementById('datetimepicker1').datetimepicker();-->
+            var myChart = document.getElementById('myChart').getContext('2d');
+            var myChart2 = document.getElementById('myChart2').getContext('2d');
+<!--            count = time.count()-->
+            Chart.defaults.global.defaultFontSize = 14
+            var myChart = new Chart(myChart, {
+                type: 'bar',
+                data: {
+                    labels: [{% for item in today_items %}'{{ item.name }}',{% endfor %}],
+                    datasets: [{
+                        label: 'Price',
+                        data: [{% for item in today_items %}{{ item.price }},{% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: "Today's Expense",
+                        fontSize: 20
+                    },
+
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+
+            var myChart = new Chart(myChart2, {
+                type: 'line',
+                data: {
+                    labels: [{%for tm in time %} '{{ tm }}', {% endfor %}],
+                    datasets: [{
+                        label: '# of Price',
+                        data: [{% for tt in total %} {{ tt }}, {% endfor %}],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.5)',
+                            'rgba(54, 162, 235, 0.5)',
+                            'rgba(255, 206, 86, 0.5)',
+                            'rgba(75, 192, 192, 0.5)',
+                            'rgba(153, 102, 255, 0.5)',
+                            'rgba(255, 159, 64, 0.5)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    title: {
+                      display: true,
+                      text: 'Last {{time|length}} days expense',
+                      fontSize: 20
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        });
+
+
+{% endblock script %}
+
+{% block content %}
+
+<div class="container">
+    
+
+{% if today_items %}
+<!--  <div class="main">-->
+    <div class="row main-row">
+      <div class="col-6">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for item in today_items %}
+          
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td>{{item.name}}</td>
+              <td>{{ item.price }}</td>
+              <td><a class="btn btn-primary" href="{% url 'update' item.pk %}">Edit</a>
+              <a id="delete" class="btn btn-danger" href="{% url 'delete' item.pk %}">Delete</a></td>
+            </tr>
+          
+          {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th id="total" colspan="4"><span>Total: {{ today_total }}</span></th>
+            </tr>
+        </tfoot>
+        </table>
+
+        <div>
+          <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="chart">
+           <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mid-hr">
+
+    <div class="second-row row mt-4 mb-4 ">
+      <div class="col-6">
+        <div class="chart">
+           <canvas id="myChart2" width="400" height="400"></canvas>
+        </div>
+      </div>
+
+    <div class="col-6">
+        <div class="form-group">
+            <div class="m-4">
+                <form class="search-form" method="post" action="{% url 'search' %}">
+
+                    {% csrf_token %}
+                    {{form|crispy}}
+
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    </div>
+
+{% else %}
+       <div class="d-flex justify-content-center">
+          <h1>Start Your Day</h1>
+       </div>
+    <div class="row main-row">
+    <div class="col-6">
+      <span class="d-flex justify-content-center m-2">You do not have any item today</span>
+      <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
+    </div>
+
+
+
+
+<!--        <div class="col-6">-->
+<!--          <div class="chart border border-danger p-2">-->
+<!--             <canvas id="myChart2" width="400" height="400"></canvas>-->
+<!--          </div>-->
+<!--        </div>-->
+    </div>
+{% endif %}
+
+
+{% endblock content %}

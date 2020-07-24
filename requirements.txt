@@ -1,0 +1,14 @@
+asgiref==3.2.3
+Django==3.0.3
+django-crispy-forms==1.8.1
+django-flatpickr==1.0.1
+djangorestframework==3.11.0
+html5lib==1.0.1
+Pillow==7.0.0
+PyPDF2==1.26.0
+pytz==2019.3
+reportlab==3.5.34
+six==1.14.0
+sqlparse==0.3.0
+webencodings==0.5.1
+xhtml2pdf==0.2.4

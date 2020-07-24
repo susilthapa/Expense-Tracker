@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block title%}History{% endblock%}
+
+{% block script %}
+<!-- (function(){ -->
+      document.addEventListener("DOMContentLoaded", function() {
+        date_input = "{{date_input}}";
+       console.log(date_input);
+
+       date = new Date("{{date}}");
+       month = date.getMonth()+1;
+       day = date.getDate();
+       if(month < 10)
+       {
+          month = "0"+month;
+       }
+       if(day < 10)
+       {
+        day = "0"+day;
+       }
+       d = date.getFullYear()+"-"+ month + "-" + day;
+       console.log(d);
+
+        document.getElementById('id_added_on').value = d;
+        document.getElementById('pdf').value = d;
+
+      });
+
+      document.getElementById('pdf-form').addEventListener('click', function(e){
+        <!-- e.preventDefault(); -->
+        console.log(123);
+
+    } );
+      
+      
+
+{% endblock %}
+
+{% block content %}
+<!--{% include 'form_style.html' %}-->
+  <div class="container">
+        <div class="col-6">
+            {% for message in messages %}
+                {{message}}
+            {% endfor%}
+        </div>
+        <div class="row main-row">
+            {% if data %}
+              <div class="col-6">
+                <table id="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Price</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  {% for item in data %}
+                  <tbody>
+                    <tr>
+                      <th scope="row">{{forloop.counter}}</th>
+                      <td>{{item.name}}</td>
+                      <td>{{ item.price }}</td>
+                      <td><a class="btn btn-primary" href="{% url 'update' item.pk %}">Edit</a>
+                      <a id="delete" class="btn btn-danger" href="{% url 'delete' item.pk %}">Delete</a></td>
+                    </tr>
+                  </tbody>
+                  {% endfor %}
+                  <tfoot>
+                    <tr>
+                      <th id="total" colspan="4"><span>Total: {{ total|intcomma }}</span></th>
+                    </tr>
+                  </tfoot>
+                </table>
+            
+              </div>
+
+              <div class="col-6 d-flex flex-column">
+
+                <div class="form-group">
+                    <form method="post" class="search-form">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <button type="submit" name="search_btn" class="btn btn-success">Search</button>
+
+                        <button type="submit" id="month" name="search_btn" value="month"
+                         class="btn btn-success">This month</button>
+                    </form>
+                    <!-- <a href="{% url 'pdf' %}" id="pdf" name="pdf" value="">Get PDF</a> -->
+                </div>
+
+                <form method="get" id="pdf-form" name="pdf-form" value="" action="{% url 'pdf' %}" target="{% url 'pdf' %}">
+                  <button class="btn btn-primary" id="pdf" value="" name="pdf" type="submit">Get PDF</button>
+                </form>
+
+            </div>
+            {% else %}
+
+            <div class="col-6 d-flex flex-column">
+
+                <div class="search-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </form>
+                </div>
+            </div>
+            
+          {% endif %}  
+        </div>  
+  </div>
+{% endblock content %}
+
+

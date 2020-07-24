@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- <script src="{% static 'javascript/main.js' %}"></script> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" type='text/css' href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.14/semantic.min.css">
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+
+    <title>{% block title %}{{title}}Base{% endblock %}</title>
+
+        {% block extra_style %}
+        {% endblock %}
+
+</head>
+<body>
+    <header class="row  d-flex justify-content-center align-items-center">
+        <div class="col-4">
+            <a id="home-link" href="{% url 'items' %}"><h1>Track Your Expense</h1></a>
+        </div>
+        <div id="time"></div>
+        {% if user.is_authenticated %}
+        <div class="header-link col-4">
+            <a id="logout" href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% endif %}
+    </header>
+
+
+{% block content  %}
+{% endblock content%}
+
+{% include 'basejs.html' %}
+
+<script>  
+{% block script %}    
+{% endblock script %}
+</script>
+</body>
+</html>

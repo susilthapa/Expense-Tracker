@@ -1,0 +1,13 @@
+.idea
+__pycache__/
+*.log
+*.pot
+*.pyc
+
+.Python
+
+.build/
+venv/
+
+db.sqlite3
+
