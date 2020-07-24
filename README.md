@@ -5,4 +5,4 @@
 <li>Add dailly expenses, update or delete, and view at any time</li>
 <li>Used <b>Chart.js for Data visualization</b></li>
 <li>User can seach their past expenses based on date</li>
-<li>User can <b>dowload pdf</b> of their specific date</li>
+<li>User can <b>dowload pdf</b> of their specific <b>day/month</b></li>
