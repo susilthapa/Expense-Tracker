@@ -6,6 +6,7 @@ djangorestframework==3.11.0
 html5lib==1.0.1
 Pillow==7.0.0
 PyPDF2==1.26.0
+python-decouple==3.3
 pytz==2019.3
 reportlab==3.5.34
 six==1.14.0
