@@ -103,6 +103,7 @@ class SearchHistoryView(FormMixin, View):
             date_input = self.request.POST.get('added_on')
             btn_value = self.request.POST.get('search_btn')
             print(f'BTN_VALUE={btn_value}')
+            print(f'DateInput={date_input}')
 
             context = getQuery(self, date_input, btn_value)
             print(f"DATE =={context}")
@@ -205,13 +206,14 @@ def getQuery(self, date_input, btn_value):
                                 Q(added_on__month=date.month),
                                 )
     if not btn_value:
-        day = month.filter(added_on__year=date.year, added_on__month=date.month, added_on__day=date.day)
+        day = month.filter(added_on__day=date.day)
     
         context = {
             'data':day,
             'total': (day.aggregate(total=Sum('price')))['total'],
             'date': date
         }
+        print(f'Context= {self.request.user.username}')
         return context
 
     elif btn_value == "month":

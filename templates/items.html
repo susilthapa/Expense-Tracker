@@ -186,19 +186,32 @@
           <h1>Start Your Day</h1>
        </div>
     <div class="row main-row">
-    <div class="col-6">
-      <span class="d-flex justify-content-center m-2">You do not have any item today</span>
-      <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
+      <div class="col-6">
+        <span class="d-flex justify-content-center m-2">You do not have any item today</span>
+        <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
+      </div>
     </div>
 
+      <div class="second-row row mt-4 mb-4 ">
+        <div class="col-6">
+          <div class="chart">
+             <canvas id="myChart2" width="400" height="400"></canvas>
+          </div>
+        </div>
 
+      <div class="col-6">
+          <div class="form-group">
+              <div class="m-4">
+                  <form class="search-form" method="post" action="{% url 'search' %}">
 
+                      {% csrf_token %}
+                      {{form|crispy}}
 
-<!--        <div class="col-6">-->
-<!--          <div class="chart border border-danger p-2">-->
-<!--             <canvas id="myChart2" width="400" height="400"></canvas>-->
-<!--          </div>-->
-<!--        </div>-->
+                      <button class="btn btn-primary" type="submit">Search</button>
+                  </form>
+              </div>
+          </div>
+      </div>
     </div>
 {% endif %}
 
