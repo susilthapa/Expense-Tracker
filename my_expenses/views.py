@@ -18,6 +18,7 @@ from django.db.models.functions import Coalesce
 
 from .utils import render_to_pdf
 from django.http import HttpResponse
+import json
 
 
 class ItemListView(LoginRequiredMixin, ListView, FormMixin):
@@ -40,22 +41,29 @@ class ItemListView(LoginRequiredMixin, ListView, FormMixin):
     def get_context_data(self, *args, **kwargs):
         time = []
         total = []
+        today_items = []
+        today_total = 0
         # context = self.get_context_data(**kwargs)
         # form = context['form']
         user = get_object_or_404(User, username=self.request.user.username)
         print(user)
-        today_items = Item.objects.filter(user=user, added_on__day=(datetime.datetime.now()).day).order_by('-added_on')
+        today_items_query = Item.objects.filter(user=user, added_on__day=(datetime.datetime.now()).day).order_by('-added_on')
         # q = User.objects.values('username').filter(username=user.username).annotate(total=Sum('item__price'))
         # print(q.query)
-        q = today_items.aggregate(total=Sum('price'))
-        today_total = q['total']
+        if today_items_query:
+            for item in today_items_query:
+                today_items.append(item)
+                q = today_items_query.aggregate(total=Sum('price'))
+                today_total += q['total']
 
+        #-----Start-Find Last four days data-----
         four = Item.objects.filter(Q(user=user), Q(
             Q(Q(added_on__day__lte=(datetime.datetime.now()).day) &
               Q(added_on__month__lte=(datetime.datetime.now()).month)) |
             Q(Q(added_on__day__gte=(datetime.datetime.now() - datetime.timedelta(days=3)).day) &
               Q(added_on__month__gte=(datetime.datetime.now() - datetime.timedelta(days=28)).month)))). \
             order_by('-added_on')
+
 
         first = four.filter(added_on__day=datetime.datetime.now().day).aggregate(total=Coalesce(Sum('price'), 0))
         first_total = first['total']
@@ -67,6 +75,8 @@ class ItemListView(LoginRequiredMixin, ListView, FormMixin):
         second_total = second['total']
         time.append((datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%a %d-%b'))
         total.append(second_total)
+        print(f'yesterday = {second_total}')
+
 
         third = four.filter(added_on__day=(datetime.datetime.now() - datetime.timedelta(days=2)).day). \
             aggregate(total=Coalesce(Sum('price'), 0))
@@ -80,9 +90,12 @@ class ItemListView(LoginRequiredMixin, ListView, FormMixin):
         time.append((datetime.datetime.now() - datetime.timedelta(days=2)).strftime('%a %d-%b'))
         total.append(fourth_total)
 
+        # -----End------#
+
         # print(f'COunt{}')
-        # print(time)
+        print(f'Four days total = {list(total)}')
         # daily = list(chain(last_three, today))
+        print(f'TODAY = {today_items}')
         context = {
             'today_items': today_items,
             'today_total': today_total,

@@ -138,6 +138,7 @@ border: 1px solid green;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		align-items: center;
 	}
 
 	table{
@@ -159,7 +160,9 @@ border: 1px solid green;
 		margin-left: 5%;
 	}	
 
-	
+	.form-col{
+		margin: auto;
+	}
 
 	.search-form{
 		padding-top: 10%; 

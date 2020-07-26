@@ -4,13 +4,18 @@
 {% block script %}
 
         $(document).ready(function(){
+            <!-- console.log('{{time}}') -->
 
 <!--            let date = document.getElementById('datetimepicker1').datetimepicker();-->
-            var myChart = document.getElementById('myChart').getContext('2d');
-            var myChart2 = document.getElementById('myChart2').getContext('2d');
-<!--            count = time.count()-->
             Chart.defaults.global.defaultFontSize = 14
-            var myChart = new Chart(myChart, {
+
+            let today_items = "{{today_items}}"
+
+            console.log(today_items.length)
+            if(today_items.length>2){
+
+                var myChart = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(myChart, {
                 type: 'bar',
                 data: {
                     labels: [{% for item in today_items %}'{{ item.name }}',{% endfor %}],
@@ -53,8 +58,15 @@
                     }
                 }
             });
+          }
 
-
+            var myChart2 = document.getElementById('myChart2').getContext('2d');
+            let text = ""
+            if(!(time[0] && time[1] &&  time[2] &&  time[3])){
+              text = "You don't have record for last four days"
+            }else{
+              text = "Last 4 days expense"
+          }
             var myChart = new Chart(myChart2, {
                 type: 'line',
                 data: {
@@ -85,7 +97,7 @@
                 options: {
                     title: {
                       display: true,
-                      text: 'Last {{time|length}} days expense',
+                      text,
                       fontSize: 20
                     },
                     scales: {
@@ -147,6 +159,7 @@
         </div>
       </div>
 
+      <!-- Today Chart  -->
       <div class="col-6">
         <div class="chart">
            <canvas id="myChart" width="400" height="400"></canvas>
@@ -156,14 +169,14 @@
 
     <hr class="mid-hr">
 
-    <div class="second-row row mt-4 mb-4 ">
+<!--     <div class="second-row row mt-4 mb-4 ">
       <div class="col-6">
         <div class="chart">
            <canvas id="myChart2" width="400" height="400"></canvas>
         </div>
-      </div>
+      </div> -->
 
-    <div class="col-6">
+<!--     <div class="col-6">
         <div class="form-group">
             <div class="m-4">
                 <form class="search-form" method="post" action="{% url 'search' %}">
@@ -175,7 +188,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> -->
 
     </div>
 
@@ -185,35 +198,34 @@
        <div class="d-flex justify-content-center">
           <h1>Start Your Day</h1>
        </div>
-    <div class="row main-row">
-      <div class="col-6">
-        <span class="d-flex justify-content-center m-2">You do not have any item today</span>
-        <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
-      </div>
-    </div>
-
-      <div class="second-row row mt-4 mb-4 ">
-        <div class="col-6">
-          <div class="chart">
-             <canvas id="myChart2" width="400" height="400"></canvas>
-          </div>
-        </div>
-
-      <div class="col-6">
-          <div class="form-group">
-              <div class="m-4">
-                  <form class="search-form" method="post" action="{% url 'search' %}">
-
-                      {% csrf_token %}
-                      {{form|crispy}}
-
-                      <button class="btn btn-primary" type="submit">Search</button>
-                  </form>
-              </div>
-          </div>
-      </div>
-    </div>
+       <div class="row main-row">
+         <div class="col-6">
+           <span class="d-flex justify-content-center m-2">You do not have any item today</span>
+           <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
+         </div>
+       </div>
 {% endif %}
+  <div class="second-row row mt-4 mb-4 ">
+    <div class="col-6">
+      <div class="chart">
+         <canvas id="myChart2" width="400" height="400"></canvas>
+      </div>
+    </div>
+
+    <div class="col-6 form-col">
+      <div class="form-group">
+          <div class="m-4">
+              <form class="search-form" method="post" action="{% url 'search' %}">
+
+                  {% csrf_token %}
+                  {{form|crispy}}
+
+                  <button class="btn btn-primary" type="submit">Search</button>
+              </form>
+          </div>
+      </div>
+    </div>
+  </div>
 
 
 {% endblock content %}
