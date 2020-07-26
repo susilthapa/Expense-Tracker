@@ -199,12 +199,13 @@
           <h1>Start Your Day</h1>
        </div>
        <div class="row main-row">
-         <div class="col-6">
+         <div class="col-6 mx-auto">
            <span class="d-flex justify-content-center m-2">You do not have any item today</span>
            <a class="btn btn-success btn-lg btn-block" href="{% url 'add_item' %}">Add</a>
          </div>
        </div>
 {% endif %}
+<div class="container">
   <div class="second-row row mt-4 mb-4 ">
     <div class="col-6">
       <div class="chart">
@@ -226,6 +227,5 @@
       </div>
     </div>
   </div>
-
-
+</div>
 {% endblock content %}

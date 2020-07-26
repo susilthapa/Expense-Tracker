@@ -41,7 +41,7 @@
 {% block content %}
 <!--{% include 'form_style.html' %}-->
   <div class="container">
-        <div class="col-6">
+        <div class="col-6 mx-auto bg-danger mb-3 text-white p-3 rounded text-center">
             {% for message in messages %}
                 {{message}}
             {% endfor%}
@@ -99,7 +99,7 @@
             </div>
             {% else %}
 
-            <div class="col-6 d-flex flex-column">
+            <div class="col-6 d-flex flex-column mx-auto">
 
                 <div class="search-form">
                     <form method="post">

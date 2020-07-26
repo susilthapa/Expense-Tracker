@@ -135,10 +135,9 @@ border: 1px solid green;
 @media screen and (max-width: 768px){	
 	
 	.main-row{
-		display: flex;
+		/*display: flex;*/
 		flex-direction: column;
 		width: 100%;
-		align-items: center;
 	}
 
 	table{
