@@ -24,7 +24,6 @@ INSTALLED_APPS = [
 
     'my_expenses',
     'crispy_forms',
-    'rest_framework',
     'flatpickr',
     'django.contrib.humanize'
 ]
