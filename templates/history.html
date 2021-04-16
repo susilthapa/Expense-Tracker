@@ -4,7 +4,7 @@
 {% block title%}History{% endblock%}
 
 {% block script %}
-<!-- (function(){ -->
+<script>
       document.addEventListener("DOMContentLoaded", function() {
         date_input = "{{date_input}}";
        console.log(date_input);
@@ -28,24 +28,24 @@
 
       });
 
-      document.getElementById('pdf-form').addEventListener('click', function(e){
-        <!-- e.preventDefault(); -->
-        console.log(123);
+      // document.getElementById('pdf-form').addEventListener('click', function(e){
+      //   // <!-- e.preventDefault(); -->
+      //   console.log(123);
 
-    } );
+      // } )
       
       
-
+</script>
 {% endblock %}
 
 {% block content %}
 <!--{% include 'form_style.html' %}-->
   <div class="container">
-        <div class="col-6 mx-auto bg-danger mb-3 text-white p-3 rounded text-center">
-            {% for message in messages %}
-                {{message}}
-            {% endfor%}
-        </div>
+        {% for message in messages %}
+          <div class="col-6 mx-auto bg-danger mb-3 text-white p-3 rounded text-center">
+            {{message}}
+          </div>
+        {% endfor%}
         <div class="row main-row">
             {% if data %}
               <div class="col-6">

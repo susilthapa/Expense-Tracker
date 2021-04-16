@@ -2,11 +2,9 @@
 {% load humanize %}
 {% load crispy_forms_tags %}
 {% block script %}
+<script>
 
         $(document).ready(function(){
-            <!-- console.log('{{time}}') -->
-
-<!--            let date = document.getElementById('datetimepicker1').datetimepicker();-->
             Chart.defaults.global.defaultFontSize = 14
 
             let today_items = "{{today_items}}"
@@ -112,6 +110,7 @@
 
         });
 
+</script>
 
 {% endblock script %}
 
