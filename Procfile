@@ -1,1 +1,1 @@
-web: gunicorn gre.wsgi --timeout 500
+web: gunicorn expense_tracker.wsgi
