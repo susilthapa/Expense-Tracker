@@ -6,7 +6,7 @@ django-flatpickr==1.0.1
 html5lib==1.1
 Pillow>=8.1.1
 pip-autoremove==0.9.1
-PyPDF2==1.26.0
+PyPDF2==1.27.5
 python-decouple==3.3
 pytz==2019.3
 reportlab>=3.5.67
